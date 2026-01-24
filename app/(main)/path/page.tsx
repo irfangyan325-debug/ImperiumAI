@@ -377,7 +377,8 @@ export default function PathPage() {
   };
 
   const currentRealm = PATH_NODES.find((n) => n.status === 'active')?.realm || 'Foundation';
-  const progress = (PATH_NODES.filter((n) => n.status === 'completed').length / PATH_NODES.length) * 100;
+  const completedCount = PATH_NODES.filter((n) => n.status === 'completed').length;
+  const progress = (completedCount / PATH_NODES.length) * 100;
 
   return (
     <MarbleBackground withVignette>
@@ -400,13 +401,22 @@ export default function PathPage() {
 
           {/* Overall Progress */}
           <motion.div variants={slideUp} initial="hidden" animate="visible">
-            <ProgressBar
-              value={progress}
-              label="Path Progress"
-              showPercentage
-              color="gold"
-              size="lg"
-            />
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm font-body">
+                <span className="text-white/70">Path Progress</span>
+                <span className="text-imperial-gold">{Math.round(progress)}%</span>
+              </div>
+              <ProgressBar
+                value={progress}
+                label=""
+                showPercentage={false}
+                color="gold"
+                size="lg"
+              />
+              <div className="text-xs font-body text-white/50 text-right">
+                {completedCount} of {PATH_NODES.length} realms completed
+              </div>
+            </div>
           </motion.div>
 
           {/* Path Map */}
@@ -421,7 +431,7 @@ export default function PathPage() {
                   key={node.id}
                   node={node}
                   index={index}
-                  onClick={() => handleNodeClick(node as PathNode)}
+                  onClick={() => handleNodeClick(node)}
                 />
               ))}
             </div>
@@ -549,8 +559,17 @@ function PathNodeCard({
 
         {/* XP reward badge */}
         {node.xpReward && node.status !== 'completed' && (
-          <div className="mt-3 inline-block px-3 py-1 bg-imperial-black/50 border border-imperial-gold/30 rounded-full text-xs font-headline text-imperial-gold">
-            +{node.xpReward} XP
+          <div className="mt-3 inline-flex items-center gap-1 px-3 py-1 bg-imperial-black/50 border border-imperial-gold/30 rounded-full text-xs font-headline text-imperial-gold">
+            <span>💎</span>
+            <span>+{node.xpReward} XP</span>
+          </div>
+        )}
+
+        {/* Completed badge */}
+        {node.status === 'completed' && (
+          <div className="mt-3 inline-flex items-center gap-1 px-3 py-1 bg-green-900/30 border border-green-600/30 rounded-full text-xs font-headline text-green-400">
+            <span>✓</span>
+            <span>Completed</span>
           </div>
         )}
       </motion.button>
@@ -568,6 +587,11 @@ function QuestDetails({
   completedQuests: Set<string>;
   onCompleteQuest: (questId: string) => void;
 }) {
+  const completedQuestCount = node.quests.filter(q => 
+    q.completed || completedQuests.has(q.id)
+  ).length;
+  const totalQuestCount = node.quests.length;
+
   return (
     <div className="space-y-6">
       {/* Realm & Status */}
@@ -594,15 +618,38 @@ function QuestDetails({
         {node.description}
       </p>
 
-      <div className="divider-gold" />
+      {/* XP Reward */}
+      {node.xpReward && node.status !== 'completed' && (
+        <div className="p-4 bg-imperial-gold/5 border border-imperial-gold/30 rounded-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">💎</span>
+              <span className="text-sm font-headline text-imperial-gold uppercase tracking-wider">
+                Completion Reward
+              </span>
+            </div>
+            <span className="text-lg font-bold text-imperial-gold">
+              +{node.xpReward} XP
+            </span>
+          </div>
+        </div>
+      )}
 
-      {/* Quests */}
       {node.quests.length > 0 && (
-        <div className="space-y-4">
-          <h4 className="text-sm font-headline text-imperial-gold uppercase tracking-wider">
-            Quests
-          </h4>
+        <>
+          <div className="divider-gold" />
+
+          {/* Quests Progress */}
+          <div className="flex items-center justify-between">
+            <h4 className="text-sm font-headline text-imperial-gold uppercase tracking-wider">
+              Quests
+            </h4>
+            <span className="text-xs font-body text-white/60">
+              {completedQuestCount} / {totalQuestCount}
+            </span>
+          </div>
           
+          {/* Quests List */}
           <div className="space-y-3">
             {node.quests.map((quest) => {
               const isCompleted = quest.completed || completedQuests.has(quest.id);
@@ -641,6 +688,7 @@ function QuestDetails({
                   {!isCompleted && node.status === 'active' && (
                     <Button
                       size="sm"
+                      variant="gold"
                       onClick={() => onCompleteQuest(quest.id)}
                     >
                       Complete
@@ -650,24 +698,18 @@ function QuestDetails({
               );
             })}
           </div>
-        </div>
-      )}
-
-      {/* XP Reward */}
-      {node.xpReward && node.status !== 'completed' && (
-        <div className="flex items-center justify-center gap-2 p-4 bg-imperial-gold/5 border border-imperial-gold/30 rounded-lg">
-          <span className="text-2xl">💎</span>
-          <span className="text-sm font-headline text-imperial-gold uppercase tracking-wider">
-            Unlock Reward: +{node.xpReward} XP
-          </span>
-        </div>
+        </>
       )}
 
       {/* Locked message */}
       {node.status === 'locked' && (
         <div className="text-center p-4 bg-imperial-black/50 border border-imperial-gold/20 rounded-lg">
-          <p className="text-sm font-body text-white/60">
-            🔒 Complete previous nodes to unlock this path
+          <div className="text-2xl mb-2">🔒</div>
+          <p className="text-sm font-body text-white/60 mb-2">
+            Complete previous realms to unlock this path
+          </p>
+          <p className="text-xs font-body text-white/40">
+            Focus on your current challenges first
           </p>
         </div>
       )}

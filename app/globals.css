@@ -1,26 +1,117 @@
-@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* app/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-imperial-gold;
+  }
+  
+  body {
+    @apply bg-imperial-black text-white font-body antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline tracking-[0.15em] uppercase;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Cinematic Background Effects */
+  .marble-bg {
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(90, 24, 24, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(164, 141, 96, 0.15) 0%, transparent 50%),
+      linear-gradient(180deg, #1A1916 0%, #0F0E0C 100%);
+    position: relative;
+  }
+
+  .marble-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  /* Vignette Effect */
+  .vignette {
+    position: relative;
+  }
+
+  .vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+    pointer-events: none;
+  }
+
+  /* Gold Glow Text */
+  .text-glow {
+    text-shadow: 0 0 10px rgba(164, 141, 96, 0.5),
+                 0 0 20px rgba(164, 141, 96, 0.3);
+  }
+
+  /* Imperial Button */
+  .btn-imperial {
+    @apply bg-imperial-black border-2 border-imperial-gold text-imperial-gold 
+           px-6 py-3 rounded-sm font-headline text-sm tracking-[0.1em] uppercase
+           transition-all duration-300 shadow-gold;
+  }
+
+  .btn-imperial:hover {
+    @apply shadow-gold-intense scale-[1.02];
+  }
+
+  .btn-imperial:active {
+    @apply scale-95 brightness-90;
+  }
+
+  /* Scroll Container */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Safe Area Padding */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top, 44px);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 34px);
+  }
+
+  /* Card Styles */
+  .card-imperial {
+    @apply bg-imperial-black/80 border border-imperial-gold/30 rounded-lg
+           backdrop-blur-sm shadow-gold p-6;
+  }
+
+  /* Divider */
+  .divider-gold {
+    @apply h-px bg-gradient-to-r from-transparent via-imperial-gold to-transparent;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

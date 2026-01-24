@@ -1,3 +1,4 @@
+
 // app/(main)/empire/page.tsx
 'use client';
 
@@ -19,6 +20,7 @@ import { MENTORS, SAMPLE_DECREES, RELICS } from '@/lib/constants';
 import { ROUTES } from '@/lib/routes';
 import { fadeIn, slideUp, staggerContainer } from '@/lib/motion';
 import { Relic } from '@/types/relic';
+import { Decree } from '@/types/decree';
 
 export default function EmpirePage() {
   const router = useRouter();
@@ -26,7 +28,15 @@ export default function EmpirePage() {
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null);
 
   const selectedMentor = MENTORS.find((m) => m.id === selectedMentorId);
-  const activeDecrees = SAMPLE_DECREES.filter((d) => d.status === 'active');
+  
+  // Add createdAt to decrees if missing
+  const activeDecrees: Decree[] = SAMPLE_DECREES
+    .filter((d) => d.status === 'active')
+    .map((decree) => ({
+      ...decree,
+      createdAt: decree.createdAt || new Date().toISOString(),
+    }));
+  
   const dailyCommand = activeDecrees[0];
 
   useEffect(() => {
@@ -45,7 +55,7 @@ export default function EmpirePage() {
   };
 
   return (
-    <MarbleBackground variant={selectedMentor?.id as any} withVignette>
+    <MarbleBackground variant={selectedMentor?.id as 'machiavelli' | 'napoleon' | 'aurelius' | undefined} withVignette>
       <TabContent>
         <div className="px-6 py-8 space-y-8 safe-area-top">
           
@@ -194,7 +204,7 @@ export default function EmpirePage() {
 
             {/* Relics Shelf */}
             <motion.div variants={slideUp}>
-              <RelicShelf relics={[...RELICS]} onRelicClick={handleRelicClick} />
+              <RelicShelf relics={RELICS} onRelicClick={handleRelicClick} />
             </motion.div>
 
             {/* Quick Actions */}

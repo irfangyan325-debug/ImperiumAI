@@ -59,7 +59,7 @@ export default function SelectionHallPage() {
         </motion.div>
 
         {/* Three Mentor Panels */}
-        <div className="flex-1 flex flex-col md:flex-row relative">
+        <div className="flex-1 flex flex-col md:flex-row relative mt-40">
           {MENTORS.map((mentor, index) => (
             <MentorPanel
               key={mentor.id}

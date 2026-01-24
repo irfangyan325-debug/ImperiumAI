@@ -71,7 +71,7 @@ export function GoldenChevron({
 // Scroll indicator with chevron
 export function ScrollIndicator({ onClick }: { onClick?: () => void }) {
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-2 ">
       <motion.p
         className="text-xs font-headline text-imperial-gold/60 uppercase tracking-wider"
         animate={{ opacity: [0.4, 1, 0.4] }}

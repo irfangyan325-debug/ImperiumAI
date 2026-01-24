@@ -345,8 +345,6 @@
 //   return entries.filter((e) => new Date(e.createdAt) >= weekAgo).length;
 // }
 
-
-
 // app/(main)/journal/page.tsx
 'use client';
 

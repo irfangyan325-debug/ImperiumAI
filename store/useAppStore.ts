@@ -23,6 +23,7 @@ interface Decree {
 }
 
 interface JournalEntry {
+  isFavorite: boolean;
   id: string;
   mentor: string;
   title: string;

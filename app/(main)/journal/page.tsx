@@ -589,10 +589,9 @@ function JournalEntryCard({
 
   return (
     <motion.div variants={slideUp}>
-      <Card
-        hover
+      <div
         onClick={onClick}
-        className="border-l-4"
+        className="cursor-pointer border-l-4 rounded-lg border border-imperial-gold/30 bg-imperial-black/80 p-6 hover:border-imperial-gold hover:shadow-gold transition-all"
         style={{ borderLeftColor: mentorColor }}
       >
         <div className="flex items-start justify-between gap-4">
@@ -642,7 +641,7 @@ function JournalEntryCard({
             <div className="text-2xl">⭐</div>
           )}
         </div>
-      </Card>
+      </div>
     </motion.div>
   );
 }

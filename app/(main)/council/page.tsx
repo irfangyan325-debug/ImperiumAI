@@ -324,33 +324,31 @@ function MentorDebateCard({
       animate="visible"
       custom={index}
     >
-      <Card
-        variant="default"
-        className="border-l-4"
-        style={{ borderLeftColor: mentor.color }}
-      >
-        <CardHeader>
-          <div className="flex items-center gap-3">
-            <div
-              className="w-10 h-10 rounded-full border-2 flex items-center justify-center text-lg font-headline"
-              style={{ borderColor: mentor.color }}
-            >
-              {mentor.name.charAt(0)}
+      <div style={{ borderLeft: `4px solid ${mentor.color}` }}>
+        <Card variant="default" className="relative overflow-hidden">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div
+                className="w-10 h-10 rounded-full border-2 flex items-center justify-center text-lg font-headline"
+                style={{ borderColor: mentor.color }}
+              >
+                {mentor.name.charAt(0)}
+              </div>
+              <div>
+                <CardTitle>{mentor.name}</CardTitle>
+                <p className="text-xs font-headline text-white/50 uppercase tracking-wider">
+                  {mentor.title}
+                </p>
+              </div>
             </div>
-            <div>
-              <CardTitle>{mentor.name}</CardTitle>
-              <p className="text-xs font-headline text-white/50 uppercase tracking-wider">
-                {mentor.title}
-              </p>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm font-body text-white/80 leading-relaxed">
-            {response}
-          </p>
-        </CardContent>
-      </Card>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm font-body text-white/80 leading-relaxed">
+              {response}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </motion.div>
   );
 }

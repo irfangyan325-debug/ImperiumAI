@@ -77,9 +77,9 @@ export default function PathPage() {
               {PATH_NODES.map((node, index) => (
                 <PathNodeCard
                   key={node.id}
-                  node={node as PathNode}
+                  node={node}
                   index={index}
-                  onClick={() => handleNodeClick(node as PathNode)}
+                  onClick={() => handleNodeClick(node)}
                 />
               ))}
             </div>

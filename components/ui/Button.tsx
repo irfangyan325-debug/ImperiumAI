@@ -64,21 +64,6 @@ export function Button({
     lg: 'px-8 py-4 text-base',
   };
 
-  // Remove event props that conflict with Framer Motion's types
-  const {
-    onAnimationStart,
-    onAnimationEnd,
-    onAnimationIteration,
-    onDrag,
-    onDragStart,
-    onDragEnd,
-    onDragOver,
-    onDragEnter,
-    onDragLeave,
-    onDrop,
-    ...safeProps
-  } = props;
-
   return (
     <motion.button
       variants={hoverScale}
@@ -88,7 +73,7 @@ export function Button({
       className={clsx(baseStyles, variants[variant], sizes[size], className)}
       onClick={handleClick}
       disabled={disabled || loading}
-      {...safeProps}
+      {...props}
     >
       {loading ? (
         <>

@@ -275,10 +275,9 @@ export default function JournalEntryDetailPage() {
   };
 
   const handleToggleFavorite = () => {
-    // TODO: Implement favorite toggle in store
-    const isFavorite = entry.isFavorite ?? false;
-    showToast(isFavorite ? 'Removed from favorites' : 'Added to favorites', 'info');
-  };
+  // TODO: Implement favorite toggle in store
+  showToast('Favorite feature coming soon', 'info');
+};
 
   return (
     <MarbleBackground withVignette>
@@ -385,7 +384,7 @@ export default function JournalEntryDetailPage() {
               variant="ghost"
               fullWidth
             >
-              {(entry.isFavorite ?? false) ? '⭐ Unfavorite' : '☆ Favorite'}
+              ☆ Favorite
             </Button>
             <Button
               onClick={() => {

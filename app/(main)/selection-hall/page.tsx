@@ -12,6 +12,7 @@ import { MENTORS } from '@/lib/constants';
 import { ROUTES } from '@/lib/routes';
 import { fadeIn, mentorPanelVariants } from '@/lib/motion';
 import { Button } from '@/components/ui/Button';
+import Image from 'next/image';
 
 export default function SelectionHallPage() {
   const router = useRouter();
@@ -59,6 +60,7 @@ export default function SelectionHallPage() {
         </motion.div>
 
         {/* Three Mentor Panels */}
+        
         <div className="flex-1 flex flex-col md:flex-row relative mt-40">
           {MENTORS.map((mentor, index) => (
             <MentorPanel
@@ -156,21 +158,26 @@ function MentorPanel({
       {/* Content Container */}
       <div className="space-y-8 text-center max-w-sm z-10">
         {/* Mentor Portrait Circle */}
-        <motion.div
+       <motion.div
           className="relative mx-auto"
           whileHover={{ scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 300 }}
         >
+          {/* Image Frame */}
           <div
-            className="w-40 h-40 md:w-52 md:h-52 rounded-full border-4 flex items-center justify-center shadow-gold-intense"
+            className="relative w-40 h-40 md:w-52 md:h-52 rounded-full border-4 overflow-hidden shadow-gold-intense"
             style={{ borderColor: mentor.color }}
           >
-            {/* Placeholder - Replace with actual image */}
-            <div className="text-7xl md:text-8xl font-headline text-imperial-gold">
-              {mentor.name.charAt(0)}
-            </div>
+            <Image
+              src={mentor.image}
+              alt={mentor.name}
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 768px) 160px, 208px"
+            />
           </div>
-          
+
           {/* Glow effect */}
           <motion.div
             className="absolute inset-0 rounded-full pointer-events-none"
@@ -188,6 +195,7 @@ function MentorPanel({
             }}
           />
         </motion.div>
+
 
         {/* Name */}
         <div className="space-y-2">

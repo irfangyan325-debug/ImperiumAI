@@ -53,8 +53,11 @@ export default function JournalPage() {
     router.push(`/journal/${entryId}`);
   };
 
-  // Calculate favorites count (placeholder until isFavorite is added to type)
-  const favoritesCount = 0;
+  // Calculate favorites count
+  // Note: This now works correctly because we added 'isFavorite' to the type definition
+  const favoritesCount = useMemo(() => {
+    return journalEntries.filter((e) => e.isFavorite).length;
+  }, [journalEntries]);
 
   return (
     <MarbleBackground withVignette>

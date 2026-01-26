@@ -53,10 +53,8 @@ export default function JournalPage() {
     router.push(`/journal/${entryId}`);
   };
 
-  // Calculate favorites count
-  const favoritesCount = useMemo(() => {
-    return journalEntries.filter((e) => (e as any).isFavorite).length;
-  }, [journalEntries]);
+  // Calculate favorites count (placeholder until isFavorite is added to type)
+  const favoritesCount = 0;
 
   return (
     <MarbleBackground withVignette>

@@ -54,9 +54,10 @@ export default function JournalPage() {
   };
 
   // Calculate favorites count
-  // Note: This now works correctly because we added 'isFavorite' to the type definition
+  // FIX: We explicitly cast the entry to "JournalEntry & { isFavorite: boolean }" 
+  // to ensure TypeScript recognizes the property even if the base type is missing it.
   const favoritesCount = useMemo(() => {
-    return journalEntries.filter((e) => e.isFavorite).length;
+    return journalEntries.filter((e) => (e as JournalEntry & { isFavorite: boolean }).isFavorite).length;
   }, [journalEntries]);
 
   return (

@@ -188,10 +188,9 @@
 // store/useAppStore.ts
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { JournalEntry } from '@/types/journal';
 
-/* =======================
-   Interfaces
-======================= */
+/* ================= Interfaces ================= */
 
 interface User {
   id: string;
@@ -213,68 +212,45 @@ interface Decree {
   createdAt: string;
 }
 
-/** ✅ UPDATED JournalEntry */
-export interface JournalEntry {
-  id: string;
-  mentor: string;
-  title: string;
-  content: string;
-  createdAt: string;
-  tags: string[];
-  isFavorite?: boolean; // ✅ added (optional)
-}
-
 interface AppState {
-  // User
   user: User;
 
-  // Mentors
   selectedMentorId: string | null;
   activeMentorId: string | null;
 
-  // Settings
   soundEnabled: boolean;
   notificationsEnabled: boolean;
   hasCompletedOnboarding: boolean;
 
-  // Data
   decrees: Decree[];
   journalEntries: JournalEntry[];
   energy: number;
 
-  // Actions
   setUser: (user: Partial<User>) => void;
   setSelectedMentor: (mentorId: string) => void;
   setActiveMentor: (mentorId: string) => void;
+
   toggleSound: () => void;
   toggleNotifications: () => void;
   completeOnboarding: () => void;
 
-  // Decrees
   addDecree: (decree: Decree) => void;
   updateDecreeStatus: (id: string, status: Decree['status']) => void;
   deleteDecree: (id: string) => void;
 
-  // Journal
   addJournalEntry: (entry: JournalEntry) => void;
   deleteJournalEntry: (id: string) => void;
 
-  // Energy
   updateEnergy: (amount: number) => void;
-
-  // XP and Level
   addXP: (amount: number) => void;
   incrementStreak: () => void;
 }
 
-/* =======================
-   Store
-======================= */
+/* ================= Store ================= */
 
 export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
-      // Initial State
       user: {
         id: '1',
         name: 'Imperator',
@@ -296,11 +272,11 @@ export const useAppStore = create<AppState>()(
       journalEntries: [],
       energy: 100,
 
-      /* ========= Actions ========= */
+      /* -------- Actions -------- */
 
-      setUser: (userData) =>
+      setUser: (user) =>
         set((state) => ({
-          user: { ...state.user, ...userData },
+          user: { ...state.user, ...user },
         })),
 
       setSelectedMentor: (mentorId) =>
@@ -320,7 +296,7 @@ export const useAppStore = create<AppState>()(
       completeOnboarding: () =>
         set({ hasCompletedOnboarding: true }),
 
-      /* ========= Decrees ========= */
+      /* -------- Decrees -------- */
 
       addDecree: (decree) =>
         set((state) => ({
@@ -339,7 +315,7 @@ export const useAppStore = create<AppState>()(
           decrees: state.decrees.filter((d) => d.id !== id),
         })),
 
-      /* ========= Journal ========= */
+      /* -------- Journal -------- */
 
       addJournalEntry: (entry) =>
         set((state) => ({
@@ -359,7 +335,7 @@ export const useAppStore = create<AppState>()(
           ),
         })),
 
-      /* ========= Energy ========= */
+      /* -------- Energy -------- */
 
       updateEnergy: (amount) =>
         set((state) => ({
@@ -369,7 +345,7 @@ export const useAppStore = create<AppState>()(
           ),
         })),
 
-      /* ========= XP & Level ========= */
+      /* -------- XP & Level -------- */
 
       addXP: (amount) =>
         set((state) => {
@@ -395,7 +371,7 @@ export const useAppStore = create<AppState>()(
         })),
     }),
     {
-      name: 'imperium-storage',
+      name: 'imperium-storage-v2', // ✅ bump key to avoid old cache
     }
   )
 );

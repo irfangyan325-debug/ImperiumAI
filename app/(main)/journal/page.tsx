@@ -53,6 +53,11 @@ export default function JournalPage() {
     router.push(`/journal/${entryId}`);
   };
 
+  // Calculate favorites count
+  const favoritesCount = useMemo(() => {
+    return journalEntries.filter((e) => e.isFavorite).length;
+  }, [journalEntries]);
+
   return (
     <MarbleBackground withVignette>
       <TabContent>
@@ -93,7 +98,7 @@ export default function JournalPage() {
             <StatCard
               icon="⭐"
               label="Favorites"
-              value={0}
+              value={favoritesCount}
             />
           </motion.div>
 

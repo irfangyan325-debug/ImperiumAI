@@ -9,3 +9,4 @@ export interface JournalEntry {
   tags: string[];
   isFavorite?: boolean;
 }
+

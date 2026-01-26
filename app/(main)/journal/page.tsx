@@ -55,7 +55,7 @@ export default function JournalPage() {
 
   // Calculate favorites count
   const favoritesCount = useMemo(() => {
-    return journalEntries.filter((e) => e.isFavorite).length;
+    return journalEntries.filter((e) => (e as any).isFavorite).length;
   }, [journalEntries]);
 
   return (

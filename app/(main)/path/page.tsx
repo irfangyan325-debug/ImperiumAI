@@ -347,7 +347,7 @@ function QuestDetails({
                   {!isCompleted && node.status === 'active' && (
                     <Button
                       size="sm"
-                      variant="gold"
+                      variant="primary"
                       onClick={() => onCompleteQuest(quest.id)}
                     >
                       Complete
